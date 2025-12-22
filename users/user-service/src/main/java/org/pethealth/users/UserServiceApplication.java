@@ -1,4 +1,4 @@
-package org.pethealth;
+package org.pethealth.users;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

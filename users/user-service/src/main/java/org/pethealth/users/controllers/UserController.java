@@ -1,4 +1,4 @@
-package org.pethealth.controllers.domain.imp;
+package org.pethealth.users.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

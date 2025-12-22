@@ -1,10 +1,10 @@
-package org.pethealth.services;
+package org.pethealth.users.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.pethealth.security.converter.JwtUserConverter;
 import org.pethealth.security.model.JwtUserPrincipal;
-import org.pethealth.utils.RealmUtil;
+import org.pethealth.users.utils.RealmUtil;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 

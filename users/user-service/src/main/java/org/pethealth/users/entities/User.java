@@ -1,4 +1,4 @@
-package org.pethealth.entities;
+package org.pethealth.users.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

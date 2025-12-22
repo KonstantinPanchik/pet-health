@@ -1,7 +1,7 @@
-package org.pethealth.mappers;
+package org.pethealth.users.mappers;
 
 import org.pethealth.common.dto.response.UserResponse;
-import org.pethealth.entities.User;
+import org.pethealth.users.entities.User;
 import org.springframework.stereotype.Component;
 
 @Component

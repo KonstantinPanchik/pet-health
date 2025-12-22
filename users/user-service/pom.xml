@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.pethealth</groupId>
+        <groupId>org.pethealth.users</groupId>
         <artifactId>users</artifactId>
         <version>0.0.1</version>
     </parent>
@@ -12,6 +12,7 @@
     <packaging>jar</packaging>
     <artifactId>user-service</artifactId>
     <name>user-service</name>
+    <version>0.0.1</version>
 
     <dependencies>
         <dependency>
@@ -56,13 +57,11 @@
         <dependency>
             <groupId>org.pethealth.security</groupId>
             <artifactId>security-starter</artifactId>
-            <version>1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.pethealth.common.dto</groupId>
-            <artifactId>user-common-dto</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.pethealth.users.dto</groupId>
+            <artifactId>users-dto</artifactId>
             <scope>compile</scope>
         </dependency>
 

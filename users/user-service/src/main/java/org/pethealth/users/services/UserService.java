@@ -1,13 +1,13 @@
-package org.pethealth.services;
+package org.pethealth.users.services;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.pethealth.common.dto.request.UserDataRequest;
 import org.pethealth.common.dto.response.UserResponse;
-import org.pethealth.entities.User;
-import org.pethealth.mappers.UserMapper;
-import org.pethealth.repository.domain.UserRepository;
+import org.pethealth.users.entities.User;
+import org.pethealth.users.mappers.UserMapper;
+import org.pethealth.users.repository.UserRepository;
 import org.pethealth.security.converter.JwtUserConverter;
 import org.pethealth.security.model.JwtUserPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;

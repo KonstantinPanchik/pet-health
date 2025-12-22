@@ -10,10 +10,12 @@
     </parent>
     <packaging>pom</packaging>
     <artifactId>users</artifactId>
+    <groupId>org.pethealth.users</groupId>
     <version>0.0.1</version>
 
     <modules>
         <module>user-service</module>
+        <module>users-dto</module>
     </modules>
 
 </project>

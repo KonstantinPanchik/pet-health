@@ -22,7 +22,6 @@
         <module>notification-service</module>
         <module>security-starter</module>
         <module>users</module>
-        <module>users/user-common-dto</module>
     </modules>
 
     <properties>
@@ -39,6 +38,18 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.pethealth.security</groupId>
+                <artifactId>security-starter</artifactId>
+                <version>0.0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.pethealth.users.dto</groupId>
+                <artifactId>users-dto</artifactId>
+                <version>0.0.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

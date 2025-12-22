@@ -1,4 +1,4 @@
-package org.pethealth.utils;
+package org.pethealth.users.utils;
 
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;

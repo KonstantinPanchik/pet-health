@@ -1,6 +1,6 @@
-package org.pethealth.repository.domain;
+package org.pethealth.users.repository;
 
-import org.pethealth.entities.User;
+import org.pethealth.users.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

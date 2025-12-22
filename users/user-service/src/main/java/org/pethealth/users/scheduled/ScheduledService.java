@@ -1,9 +1,9 @@
-package org.pethealth.scheduled;
+package org.pethealth.users.scheduled;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.pethealth.utils.RealmUtil;
+import org.pethealth.users.utils.RealmUtil;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

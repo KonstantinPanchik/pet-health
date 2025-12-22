@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.pethealth</groupId>
-        <artifactId>PetHealth</artifactId>
+        <groupId>org.pethealth.users</groupId>
+        <artifactId>users</artifactId>
         <version>0.0.1</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>user-common-dto</artifactId>
-    <groupId>org.pethealth.common.dto</groupId>
-    <version>1.0.0</version>
+    <artifactId>users-dto</artifactId>
+    <name>users-dto</name>
+    <groupId>org.pethealth.users.dto</groupId>
+    <version>0.0.1</version>
 
     <dependencies>
 
@@ -28,10 +28,7 @@
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
 
-
     </dependencies>
-
-
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
