@@ -6,8 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.pethealth.common.dto.request.UserDataRequest;
-import org.pethealth.common.dto.response.UserResponse;
+
+import org.pethealth.users.dto.request.UserDataRequest;
+import org.pethealth.users.dto.response.UserResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;

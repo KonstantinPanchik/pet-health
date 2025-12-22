@@ -2,8 +2,8 @@ package org.pethealth.users.controllers.imp;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.pethealth.common.dto.request.UserDataRequest;
-import org.pethealth.common.dto.response.UserResponse;
+import org.pethealth.users.dto.request.UserDataRequest;
+import org.pethealth.users.dto.response.UserResponse;
 
 import org.pethealth.users.controllers.UserController;
 import org.pethealth.users.services.KeycloakApiService;

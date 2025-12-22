@@ -53,17 +53,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.pethealth.security</groupId>
-            <artifactId>security-starter</artifactId>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>org.pethealth.users.dto</groupId>
             <artifactId>users-dto</artifactId>
-            <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.pethealth.security</groupId>
+            <artifactId>security-starter</artifactId>
+        </dependency>
+
 
     </dependencies>
 

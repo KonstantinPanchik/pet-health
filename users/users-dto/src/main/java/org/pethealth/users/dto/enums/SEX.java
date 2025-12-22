@@ -1,4 +1,4 @@
-package org.pethealth.common.dto.enums;
+package org.pethealth.users.dto.enums;
 
 public enum SEX {
     MALE,

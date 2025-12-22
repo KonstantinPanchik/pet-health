@@ -1,9 +1,9 @@
-package org.pethealth.common.dto.response;
+package org.pethealth.users.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
-import org.pethealth.common.dto.enums.SEX;
+import org.pethealth.users.dto.enums.SEX;
 
 
 import java.time.LocalDate;
