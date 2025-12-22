@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JwtUserPrincipal {
+    private String sub;
     private String username;
     private String firstName;
     private String lastName;
