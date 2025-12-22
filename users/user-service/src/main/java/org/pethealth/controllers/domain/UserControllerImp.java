@@ -49,5 +49,4 @@ public class UserControllerImp implements UserController {
         keycloakApiService.confirmEmail(jwt);
     }
 
-
 }

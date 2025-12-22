@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Past;
 import lombok.Getter;
 import lombok.Setter;
-import org.pethealth.enums.SEX;
+import org.pethealth.common.dto.enums.SEX;
 
 import java.time.LocalDate;
 
