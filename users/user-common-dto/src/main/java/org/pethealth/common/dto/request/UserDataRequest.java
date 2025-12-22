@@ -1,4 +1,4 @@
-package org.pethealth.dto.request;
+package org.pethealth.common.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Past;

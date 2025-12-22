@@ -1,13 +1,11 @@
 package org.pethealth.controllers.domain;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.admin.client.Keycloak;
+import org.pethealth.common.dto.request.UserDataRequest;
+import org.pethealth.common.dto.response.UserResponse;
 import org.pethealth.controllers.domain.imp.UserController;
-import org.pethealth.dto.request.UserDataRequest;
-import org.pethealth.dto.response.UserResponse;
-import org.pethealth.mappers.UserMapper;
+
 import org.pethealth.services.KeycloakApiService;
 import org.pethealth.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

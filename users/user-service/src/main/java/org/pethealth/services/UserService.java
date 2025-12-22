@@ -1,11 +1,10 @@
 package org.pethealth.services;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.pethealth.dto.request.UserDataRequest;
-import org.pethealth.dto.response.UserResponse;
+import org.pethealth.common.dto.request.UserDataRequest;
+import org.pethealth.common.dto.response.UserResponse;
 import org.pethealth.entities.User;
 import org.pethealth.mappers.UserMapper;
 import org.pethealth.repository.domain.UserRepository;
