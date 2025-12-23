@@ -1,0 +1,23 @@
+server:
+  servlet:
+    context-path: "/api/v1/veterinary/"
+  port: 8082
+logging:
+  level:
+    org:
+      pethealth: INFO
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 728926
+    url: jdbc:postgresql://localhost:5432/pet-health
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/pethealth
+  jpa:
+    hibernate:
+      ddl-auto: update
+
