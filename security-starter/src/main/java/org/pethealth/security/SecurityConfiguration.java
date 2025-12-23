@@ -24,9 +24,7 @@ public class SecurityConfiguration {
     @ConditionalOnMissingBean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
-        http.authorizeHttpRequests(authorizeRequests -> {
-            authorizeRequests.anyRequest().permitAll();
-        });
+        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().permitAll());
         return http.build();
     }
 

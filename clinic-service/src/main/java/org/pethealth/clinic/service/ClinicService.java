@@ -10,6 +10,8 @@ import org.pethealth.clinic.mapper.ClinicMapper;
 import org.pethealth.clinic.repository.ClinicRepository;
 import org.pethealth.security.converter.JwtUserConverter;
 import org.pethealth.security.model.JwtUserPrincipal;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
@@ -90,6 +92,13 @@ public class ClinicService {
         clinic.setOwnerId(principal.getSub());
 
         return clinicMapper.toClinicResponse(clinicRepository.save(clinic));
+    }
+
+    @Transactional
+    public Page<ClinicResponse> searchClinics(String name, Pageable pageable) {
+        log.debug("Searching clinics by name: {}", name);
+        return clinicRepository.findByNameContainingIgnoreCase(name, pageable)
+                .map(clinicMapper::toClinicResponse);
     }
 
 }

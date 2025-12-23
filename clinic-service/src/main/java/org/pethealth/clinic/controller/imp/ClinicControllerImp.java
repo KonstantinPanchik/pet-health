@@ -3,9 +3,11 @@ package org.pethealth.clinic.controller.imp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.pethealth.clinic.controller.ClinicController;
+import org.pethealth.clinic.dto.aliases.ClinicPageResponse;
 import org.pethealth.clinic.dto.request.ClinicRequest;
 import org.pethealth.clinic.dto.response.ClinicResponse;
 import org.pethealth.clinic.service.ClinicService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,7 @@ public class ClinicControllerImp implements ClinicController {
     @Override
     @PostMapping
     public ClinicResponse createClinic(@AuthenticationPrincipal Jwt jwt,
-                                      @RequestBody ClinicRequest clinicRequest) {
+                                       @RequestBody ClinicRequest clinicRequest) {
         log.debug("REST POST request to create clinic");
         return clinicService.createClinic(jwt, clinicRequest);
     }
@@ -45,10 +47,17 @@ public class ClinicControllerImp implements ClinicController {
     @Override
     @PutMapping("/{clinicId}")
     public ClinicResponse updateClinic(@AuthenticationPrincipal Jwt jwt,
-                                      @PathVariable Long clinicId,
-                                      @RequestBody ClinicRequest clinicRequest) {
+                                       @PathVariable Long clinicId,
+                                       @RequestBody ClinicRequest clinicRequest) {
         log.debug("REST PUT request to update clinic with id: {}", clinicId);
         return clinicService.updateClinic(jwt, clinicId, clinicRequest);
+    }
+
+    @Override
+    @GetMapping("/search")
+    public ClinicPageResponse searchClinics(@RequestParam String name, Pageable pageable) {
+        log.debug("REST GET request to search clinics by name: {}", name);
+        return new ClinicPageResponse(clinicService.searchClinics(name, pageable));
     }
 }
 
