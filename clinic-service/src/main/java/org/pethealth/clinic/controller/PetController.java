@@ -39,7 +39,7 @@ public interface PetController {
             ))
     })
     PetResponse createPet(@AuthenticationPrincipal Jwt jwt,
-                         @RequestBody @Validated PetRequest petRequest);
+                          @RequestBody @Validated PetRequest petRequest);
 
     @Operation(summary = "Получение списка питомцев текущего пользователя")
     @ApiResponses(value = {
@@ -66,7 +66,7 @@ public interface PetController {
             ))
     })
     PetResponse getPetById(@AuthenticationPrincipal Jwt jwt,
-                          @PathVariable Long petId);
+                           @PathVariable Long petId);
 
     @Operation(summary = "Обновление информации о питомце")
     @ApiResponses(value = {
@@ -86,7 +86,7 @@ public interface PetController {
             ))
     })
     PetResponse updatePet(@AuthenticationPrincipal Jwt jwt,
-                         @PathVariable Long petId,
-                         @RequestBody @Validated PetRequest petRequest);
+                          @PathVariable Long petId,
+                          @RequestBody @Validated PetRequest petRequest);
 }
 

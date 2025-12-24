@@ -7,6 +7,7 @@ import org.pethealth.clinic.dto.request.PetRequest;
 import org.pethealth.clinic.dto.response.PetResponse;
 import org.pethealth.clinic.dto.response.PetShortResponse;
 import org.pethealth.clinic.service.PetService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/pets")
+@PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
 public class PetControllerImp implements PetController {
 

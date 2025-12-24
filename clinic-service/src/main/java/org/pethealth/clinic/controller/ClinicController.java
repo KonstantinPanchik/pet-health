@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.pethealth.clinic.dto.aliases.ClinicPageResponse;
 import org.pethealth.clinic.dto.request.ClinicRequest;
 import org.pethealth.clinic.dto.response.ClinicResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -85,8 +84,8 @@ public interface ClinicController {
             ))
     })
     ClinicResponse updateClinic(@AuthenticationPrincipal Jwt jwt,
-                               @PathVariable Long clinicId,
-                               @RequestBody @Validated ClinicRequest clinicRequest);
+                                @PathVariable Long clinicId,
+                                @RequestBody @Validated ClinicRequest clinicRequest);
 
     @Operation(summary = "Поиск клиник по названию")
     @ApiResponses(value = {

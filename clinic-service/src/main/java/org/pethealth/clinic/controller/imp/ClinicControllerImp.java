@@ -8,6 +8,7 @@ import org.pethealth.clinic.dto.request.ClinicRequest;
 import org.pethealth.clinic.dto.response.ClinicResponse;
 import org.pethealth.clinic.service.ClinicService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class ClinicControllerImp implements ClinicController {
     private final ClinicService clinicService;
 
     @Override
+    @PreAuthorize("hasRole('DOCTOR')")
     @PostMapping
     public ClinicResponse createClinic(@AuthenticationPrincipal Jwt jwt,
                                        @RequestBody ClinicRequest clinicRequest) {
@@ -31,6 +33,7 @@ public class ClinicControllerImp implements ClinicController {
     }
 
     @Override
+    @PreAuthorize("hasRole('DOCTOR')")
     @GetMapping
     public List<ClinicResponse> getMyClinics(@AuthenticationPrincipal Jwt jwt) {
         log.debug("REST GET request to get my clinics");
@@ -45,6 +48,7 @@ public class ClinicControllerImp implements ClinicController {
     }
 
     @Override
+    @PreAuthorize("hasRole('DOCTOR')")
     @PutMapping("/{clinicId}")
     public ClinicResponse updateClinic(@AuthenticationPrincipal Jwt jwt,
                                        @PathVariable Long clinicId,
@@ -55,7 +59,7 @@ public class ClinicControllerImp implements ClinicController {
 
     @Override
     @GetMapping("/search")
-    public ClinicPageResponse searchClinics(@RequestParam String name, Pageable pageable) {
+    public ClinicPageResponse searchClinics(@RequestParam(required = false, defaultValue = "") String name, Pageable pageable) {
         log.debug("REST GET request to search clinics by name: {}", name);
         return new ClinicPageResponse(clinicService.searchClinics(name, pageable));
     }
