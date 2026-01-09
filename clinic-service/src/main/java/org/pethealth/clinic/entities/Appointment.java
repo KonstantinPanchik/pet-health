@@ -15,20 +15,22 @@ public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column
     private String reason;
 
     @ManyToOne
+    @JoinColumn(name = "pet_id")
     private Pet pet;
 
     @ManyToOne
+    @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 
     @Column
-    public LocalDateTime dateTime;
+    private LocalDateTime dateTime;
 
     @Column
-    public AppointmentStatus status;
+    private AppointmentStatus status;
 }
