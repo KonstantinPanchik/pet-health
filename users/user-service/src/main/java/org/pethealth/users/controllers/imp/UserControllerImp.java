@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/users/me")
 @RequiredArgsConstructor
 public class UserControllerImp implements UserController {
 
@@ -22,26 +22,26 @@ public class UserControllerImp implements UserController {
     private final KeycloakApiService keycloakApiService;
 
     @Override
-    @GetMapping("/me")
+    @GetMapping
     public UserResponse getMe(@AuthenticationPrincipal Jwt jwt) {
         log.debug("REST GET request to get user");
         return userService.getMe(jwt);
     }
 
-    @PutMapping("/me")
+    @PutMapping
     public UserResponse updateMe(@AuthenticationPrincipal Jwt jwt,
                                  @RequestBody UserDataRequest userDataRequest) {
         log.debug("REST PUT request to update user");
         return userService.updateMe(jwt, userDataRequest);
     }
 
-    @PostMapping("/change-password")
+    @PutMapping("/change-password")
     public void changePassword(@AuthenticationPrincipal Jwt jwt){
         log.debug("REST POST request to change password");
         keycloakApiService.changePassword(jwt);
     }
 
-    @PostMapping("/send-verification-email")
+    @PutMapping("/verification-email")
     public void sendVerificationEmail(@AuthenticationPrincipal Jwt jwt){
         log.debug("REST POST request to send verification email");
         keycloakApiService.confirmEmail(jwt);
