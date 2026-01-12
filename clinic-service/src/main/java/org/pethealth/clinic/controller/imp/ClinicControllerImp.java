@@ -8,7 +8,6 @@ import org.pethealth.clinic.dto.aliases.ClinicPageResponse;
 import org.pethealth.clinic.dto.enums.AppointmentStatus;
 import org.pethealth.clinic.dto.request.ClinicRequest;
 import org.pethealth.clinic.dto.response.ClinicResponse;
-import org.pethealth.clinic.mapper.ClinicMapper;
 import org.pethealth.clinic.service.AppointmentService;
 import org.pethealth.clinic.service.ClinicService;
 import org.springframework.data.domain.Pageable;

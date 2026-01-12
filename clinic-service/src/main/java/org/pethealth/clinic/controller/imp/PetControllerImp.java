@@ -8,7 +8,6 @@ import org.pethealth.clinic.dto.enums.AppointmentStatus;
 import org.pethealth.clinic.dto.request.PetRequest;
 import org.pethealth.clinic.dto.response.PetResponse;
 import org.pethealth.clinic.dto.response.PetShortResponse;
-import org.pethealth.clinic.mapper.PetMapper;
 import org.pethealth.clinic.service.AppointmentService;
 import org.pethealth.clinic.service.PetService;
 import org.springframework.data.domain.Pageable;
@@ -64,6 +63,7 @@ public class PetControllerImp implements PetController {
         return petService.updatePet(jwt, petId, petRequest);
     }
 
+    @Override
     @GetMapping("/{petId}/appointments")
     public AppointmentPageResponse getAllAppointmentsByPet(
             @PathVariable Long petId,
