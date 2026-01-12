@@ -35,6 +35,7 @@ public class AppointmentService {
 
     private final JwtUserConverter jwtUserConverter;
 
+    @Transactional
     public AppointmentResponse createAppointment(AppointmentCreationRequest request, Jwt jwt) {
         JwtUserPrincipal principal = jwtUserConverter.convert(jwt);
 
@@ -110,6 +111,40 @@ public class AppointmentService {
 
         Page<Appointment> pageAllByPet = appointmentRepository.findAllByClinic(clinicId, status, from, to, pageable);
         return pageAllByPet.map(appointmentMapper::toAppointmentResponse);
+    }
+
+    @Transactional
+    public AppointmentResponse cancelAppointment(Jwt jwt, Long appointmentId) {
+        JwtUserPrincipal principal = jwtUserConverter.convert(jwt);
+
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
+        boolean isPetOwner = appointment.getPet().getOwnerId().equals(principal.getSub());
+        boolean isClinicOwner = appointment.getClinic().getOwnerId().equals(principal.getSub());
+        if (!isPetOwner && !isClinicOwner) {
+            throw new IllegalArgumentException("Pet is not owner of this owner");
+        }
+
+        if (!AppointmentStatus.NEW.equals(appointment.getStatus())) {
+            throw new IllegalArgumentException("Appointment status is not new");
+        }
+
+        appointment.setStatus(AppointmentStatus.CANCELLED);
+
+        return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
+    }
+
+    @Transactional
+    public AppointmentResponse visitAppointment(Jwt jwt, Long appointmentId) {
+        JwtUserPrincipal principal = jwtUserConverter.convert(jwt);
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
+        boolean isClinicOwner = appointment.getClinic().getOwnerId().equals(principal.getSub());
+        if (!isClinicOwner) {
+            throw new IllegalArgumentException("Clinic is not owner of this owner");
+        }
+        appointment.setStatus(AppointmentStatus.VISITED);
+        return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }
 
 

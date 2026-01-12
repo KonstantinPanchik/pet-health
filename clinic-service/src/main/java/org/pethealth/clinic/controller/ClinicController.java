@@ -6,7 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.pethealth.clinic.dto.aliases.AppointmentPageResponse;
 import org.pethealth.clinic.dto.aliases.ClinicPageResponse;
+import org.pethealth.clinic.dto.enums.AppointmentStatus;
 import org.pethealth.clinic.dto.request.ClinicRequest;
 import org.pethealth.clinic.dto.response.ClinicResponse;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Tag(name = "Клиники")
@@ -32,7 +35,7 @@ public interface ClinicController {
     @Operation(summary = "Создание новой клиники")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200", description = "OK", content = @Content(
+                    responseCode = "201", description = "Created", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ClinicResponse.class)
             )),
@@ -96,5 +99,23 @@ public interface ClinicController {
             ))
     })
     ClinicPageResponse searchClinics(@RequestParam String name, Pageable pageable);
+
+    @Operation(summary = "Получение всех записей на прием по ID клиники")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "OK", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = AppointmentPageResponse.class)
+            ))
+    })
+    AppointmentPageResponse getAllAppointmentsByClinicId(
+            @PathVariable Long clinicId,
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestParam(required = false) LocalDateTime from,
+            @RequestParam(required = false) LocalDateTime to,
+            @RequestParam(required = false) AppointmentStatus status,
+            Pageable pageable
+    );
+
 }
 
