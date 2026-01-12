@@ -8,6 +8,7 @@ import org.pethealth.users.dto.response.UserResponse;
 import org.pethealth.users.controllers.UserController;
 import org.pethealth.users.services.KeycloakApiService;
 import org.pethealth.users.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class UserControllerImp implements UserController {
         return userService.getMe(jwt);
     }
 
+    @Override
     @PutMapping
     public UserResponse updateMe(@AuthenticationPrincipal Jwt jwt,
                                  @RequestBody UserDataRequest userDataRequest) {
@@ -35,15 +37,19 @@ public class UserControllerImp implements UserController {
         return userService.updateMe(jwt, userDataRequest);
     }
 
+    @Override
     @PutMapping("/change-password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changePassword(@AuthenticationPrincipal Jwt jwt){
-        log.debug("REST POST request to change password");
+        log.debug("REST PUT request to change password");
         keycloakApiService.changePassword(jwt);
     }
 
+    @Override
     @PutMapping("/verification-email")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void sendVerificationEmail(@AuthenticationPrincipal Jwt jwt){
-        log.debug("REST POST request to send verification email");
+        log.debug("REST PUT request to send verification email");
         keycloakApiService.confirmEmail(jwt);
     }
 

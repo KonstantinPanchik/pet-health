@@ -34,7 +34,7 @@ public interface UserController {
     })
     UserResponse getMe(@AuthenticationPrincipal Jwt jwt);
 
-    @Operation(summary = "Получение информации о текущем пользователе")
+    @Operation(summary = "Обновление информации о текущем пользователе")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "OK", content = @Content(
@@ -47,5 +47,27 @@ public interface UserController {
     })
     UserResponse updateMe(@AuthenticationPrincipal Jwt jwt,
                           @RequestBody @Validated UserDataRequest userDataRequest);
+
+    @Operation(summary = "Отправка письма на смену пароля, на почтовый адрес")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204", description = "No Content", content = @Content()
+            ),
+            @ApiResponse(responseCode = "400", description = "Bad request - email not verified", content = @Content(
+                    schema = @Schema(example = "{\n\"statusCode\": 400,\"\n \"message\": \"Email not verified\"\n}")
+            ))
+    })
+    void changePassword(@AuthenticationPrincipal Jwt jwt);
+
+    @Operation(summary = "Отправка письма на верификацию email")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204", description = "No Content", content = @Content()
+            ),
+            @ApiResponse(responseCode = "400", description = "Bad request - email already verified", content = @Content(
+                    schema = @Schema(example = "{\n\"statusCode\": 400,\"\n \"message\": \"Email already verified\"\n}")
+            ))
+    })
+    void sendVerificationEmail(@AuthenticationPrincipal Jwt jwt);
 
 }
