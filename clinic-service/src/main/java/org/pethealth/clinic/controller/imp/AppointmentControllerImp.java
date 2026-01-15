@@ -43,17 +43,13 @@ public class AppointmentControllerImp implements AppointmentController {
     }
 
     @Override
-    @PatchMapping("/{appointmentId}")
+    @PatchMapping("/{appointmentId}/cancel")
     public AppointmentResponse updateAppointmentStatus(
             @PathVariable Long appointmentId,
-            @AuthenticationPrincipal Jwt jwt,
-            @RequestBody @Validated ChangeStatusRequest request) {
+            @AuthenticationPrincipal Jwt jwt) {
+        return appointmentService.cancelAppointment(jwt, appointmentId);
 
-        return switch (request.getStatus()) {
-            case CANCELLED -> appointmentService.cancelAppointment(jwt, appointmentId);
-            case VISITED -> appointmentService.visitAppointment(jwt, appointmentId);
-            case NEW -> throw new IllegalArgumentException("Cannot change status to NEW");
-        };
     }
 
 }
+

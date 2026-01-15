@@ -7,6 +7,7 @@ import org.pethealth.clinic.dto.aliases.AppointmentPageResponse;
 import org.pethealth.clinic.dto.aliases.ClinicPageResponse;
 import org.pethealth.clinic.dto.enums.AppointmentStatus;
 import org.pethealth.clinic.dto.request.ClinicRequest;
+import org.pethealth.clinic.dto.response.AppointmentResponse;
 import org.pethealth.clinic.dto.response.ClinicResponse;
 import org.pethealth.clinic.service.AppointmentService;
 import org.pethealth.clinic.service.ClinicService;
@@ -88,6 +89,15 @@ public class ClinicControllerImp implements ClinicController {
         return new AppointmentPageResponse(
                 appointmentService.getAppointmentsByClinic(from, to, status, clinicId, pageable, jwt)
         );
+    }
+
+    @PatchMapping("/{clinicId}/appointments/{appointmentId}")
+    public AppointmentResponse cancelAppointment(
+            @PathVariable Long clinicId,
+            @PathVariable Long appointmentId,
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        return appointmentService.cancelAppointmentByClinicOwner(jwt, appointmentId, clinicId);
     }
 }
 

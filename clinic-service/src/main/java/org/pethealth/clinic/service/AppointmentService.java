@@ -120,16 +120,38 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
         boolean isPetOwner = appointment.getPet().getOwnerId().equals(principal.getSub());
-        boolean isClinicOwner = appointment.getClinic().getOwnerId().equals(principal.getSub());
-        if (!isPetOwner && !isClinicOwner) {
-            throw new IllegalArgumentException("Pet is not owner of this owner");
+
+        if (!isPetOwner) {
+            throw new IllegalArgumentException("Pet is not owner of this owner");//ToDo
         }
 
         if (!AppointmentStatus.NEW.equals(appointment.getStatus())) {
             throw new IllegalArgumentException("Appointment status is not new");
         }
 
-        appointment.setStatus(AppointmentStatus.CANCELLED);
+        appointment.setStatus(AppointmentStatus.CANCELLED_BY_USER);
+
+        return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
+    }
+
+    @Transactional
+    public AppointmentResponse cancelAppointmentByClinicOwner(Jwt jwt, Long appointmentId,Long clinicId) {
+        JwtUserPrincipal principal = jwtUserConverter.convert(jwt);
+
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
+        boolean isClinicCorrect=appointment.getClinic().getId().equals(clinicId);
+        boolean isClinicOwner = appointment.getClinic().getOwnerId().equals(principal.getSub());
+
+        if (!isClinicOwner) {
+            throw new IllegalArgumentException("Pet is not owner of this owner");//ToDo ss
+        }
+
+        if (!AppointmentStatus.NEW.equals(appointment.getStatus())) {
+            throw new IllegalArgumentException("Appointment status is not new");
+        }
+
+        appointment.setStatus(AppointmentStatus.CANCELLED_BY_CLINIC);
 
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }

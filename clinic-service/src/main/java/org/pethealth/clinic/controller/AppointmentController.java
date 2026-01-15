@@ -73,8 +73,7 @@ public interface AppointmentController {
     })
     AppointmentResponse updateAppointmentStatus(
             @PathVariable Long appointmentId,
-            @AuthenticationPrincipal Jwt jwt,
-            @RequestBody @Validated ChangeStatusRequest request
+            @AuthenticationPrincipal Jwt jwt
     );
 
 }
