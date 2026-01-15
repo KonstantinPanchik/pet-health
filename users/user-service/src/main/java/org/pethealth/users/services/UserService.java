@@ -26,11 +26,11 @@ public class UserService {
     @Transactional
     public UserResponse getMe(Jwt jwt) {
         JwtUserPrincipal jwtUserPrincipal = jwtUserConverter.convert(jwt);
-        Optional<User> byUsername = userRepository.findById(jwtUserPrincipal.getSub());
+        Optional<User> byId = userRepository.findById(jwtUserPrincipal.getSub());
 
-        if (byUsername.isPresent()) {
+        if (byId.isPresent()) {
             log.debug("Found user with username {}", jwtUserPrincipal.getUsername());
-            UserResponse userResponse = userMapper.toUserResponse(byUsername.get());
+            UserResponse userResponse = userMapper.toUserResponse(byId.get());
             userResponse.setIsEmailVerified(jwtUserPrincipal.getEmailVerified());
             return userResponse;
         }
