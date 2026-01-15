@@ -30,7 +30,7 @@ public class KeycloakApiService {
     public void changePassword(Jwt jwt) {
         JwtUserPrincipal principal = jwtUserConverter.convert(jwt);
         if (!principal.getEmailVerified()) {
-            throw new RuntimeException("Email not verified");
+            throw new RuntimeException("Email not verified");//todo ошибка переделать
         }
 
         realmUtil.getRealm()
