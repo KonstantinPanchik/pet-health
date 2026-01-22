@@ -11,7 +11,7 @@ public class AppointmentInfo {
 
     private ClinicInfo clinic;
 
-    private PetInfo petInfo;
+    private PetInfo pet;
 
     private LocalDateTime dateTime;
 
