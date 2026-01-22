@@ -1,4 +1,4 @@
-package org.pethealth.clinic.service;
+package org.pethealth.clinic.service.appointment;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,9 @@ import org.pethealth.clinic.mapper.AppointmentMapper;
 import org.pethealth.clinic.repository.AppointmentRepository;
 import org.pethealth.clinic.repository.ClinicRepository;
 import org.pethealth.clinic.repository.PetRepository;
+import org.pethealth.clinic.service.messaging.RabbitMQMessageService;
+import org.pethealth.notifications.dto.appointment.AppointmentEvent;
+import org.pethealth.notifications.dto.appointment.AppointmentEventType;
 import org.pethealth.security.converter.JwtUserConverter;
 import org.pethealth.security.model.JwtUserPrincipal;
 import org.springframework.data.domain.Page;
@@ -32,8 +35,11 @@ public class AppointmentService {
     private final ClinicRepository clinicRepository;
 
     private final AppointmentMapper appointmentMapper;
-
     private final JwtUserConverter jwtUserConverter;
+
+    private final AppointmentEventService appointmentEventService;
+    private final RabbitMQMessageService rabbitMQMessageService;
+
 
     @Transactional
     public AppointmentResponse createAppointment(AppointmentCreationRequest request, Jwt jwt) {
@@ -56,6 +62,9 @@ public class AppointmentService {
         appointment.setDateTime(request.getDateTime());
         appointment.setStatus(AppointmentStatus.NEW);
         appointmentRepository.save(appointment);
+
+        AppointmentEvent event = appointmentEventService.createEvent(principal, appointment, AppointmentEventType.USER_CREATED);
+        rabbitMQMessageService.sendMessage(event);
 
         return appointmentMapper.toAppointmentResponse(appointment);
     }
@@ -114,7 +123,7 @@ public class AppointmentService {
     }
 
     @Transactional
-    public AppointmentResponse cancelAppointment(Jwt jwt, Long appointmentId) {
+    public AppointmentResponse cancelAppointmentByUser(Jwt jwt, Long appointmentId) {
         JwtUserPrincipal principal = jwtUserConverter.convert(jwt);
 
         Appointment appointment = appointmentRepository.findById(appointmentId)
@@ -130,17 +139,19 @@ public class AppointmentService {
         }
 
         appointment.setStatus(AppointmentStatus.CANCELLED_BY_USER);
+        AppointmentEvent event = appointmentEventService.createEvent(principal, appointment, AppointmentEventType.USER_CANCELED);
+        rabbitMQMessageService.sendMessage(event);
 
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }
 
     @Transactional
-    public AppointmentResponse cancelAppointmentByClinicOwner(Jwt jwt, Long appointmentId,Long clinicId) {
+    public AppointmentResponse cancelAppointmentByClinicOwner(Jwt jwt, Long appointmentId, Long clinicId) {
         JwtUserPrincipal principal = jwtUserConverter.convert(jwt);
 
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
-        boolean isClinicCorrect=appointment.getClinic().getId().equals(clinicId);
+        boolean isClinicCorrect = appointment.getClinic().getId().equals(clinicId);//TODO проверить
         boolean isClinicOwner = appointment.getClinic().getOwnerId().equals(principal.getSub());
 
         if (!isClinicOwner) {
@@ -153,6 +164,8 @@ public class AppointmentService {
 
         appointment.setStatus(AppointmentStatus.CANCELLED_BY_CLINIC);
 
+        AppointmentEvent event = appointmentEventService.createEvent(principal, appointment, AppointmentEventType.CLINIC_CANCELED);
+        rabbitMQMessageService.sendMessage(event);
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }
 
@@ -162,10 +175,16 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
         boolean isClinicOwner = appointment.getClinic().getOwnerId().equals(principal.getSub());
+
         if (!isClinicOwner) {
             throw new IllegalArgumentException("Clinic is not owner of this owner");
         }
+
         appointment.setStatus(AppointmentStatus.VISITED);
+
+        AppointmentEvent event = appointmentEventService.createEvent(principal, appointment, AppointmentEventType.CLINIC_VISITED);
+        rabbitMQMessageService.sendMessage(event);
+
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }
 

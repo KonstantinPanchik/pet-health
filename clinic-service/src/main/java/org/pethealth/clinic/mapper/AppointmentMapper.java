@@ -3,6 +3,7 @@ package org.pethealth.clinic.mapper;
 import lombok.RequiredArgsConstructor;
 import org.pethealth.clinic.dto.response.AppointmentResponse;
 import org.pethealth.clinic.entities.Appointment;
+import org.pethealth.notifications.dto.appointment.AppointmentInfo;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,4 +23,14 @@ public class AppointmentMapper {
                 .clinic(clinicMapper.toClinicResponse(appointment.getClinic()))
                 .build();
     }
+
+    public AppointmentInfo toAppointmentInfo(Appointment appointment) {
+        AppointmentInfo appointmentInfo = new AppointmentInfo();
+        appointmentInfo.setPet(petMapper.toPetInfo(appointment.getPet()));
+        appointmentInfo.setClinic(clinicMapper.toClinicInfo(appointment.getClinic()));
+        appointmentInfo.setDateTime(appointment.getDateTime());
+        appointmentInfo.setReason(appointment.getReason());
+        return appointmentInfo;
+    }
+
 }

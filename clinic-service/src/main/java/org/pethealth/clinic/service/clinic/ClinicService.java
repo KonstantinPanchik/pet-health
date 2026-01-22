@@ -1,4 +1,4 @@
-package org.pethealth.clinic.service;
+package org.pethealth.clinic.service.clinic;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

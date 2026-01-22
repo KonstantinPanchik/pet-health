@@ -1,6 +1,7 @@
-package org.pethealth.clinic.service;
+package org.pethealth.clinic.service.messaging;
 
 import lombok.RequiredArgsConstructor;
+import org.pethealth.notifications.dto.base.DomainEvent;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class RabbitMQMessageService {
     private String messageQueue;
 
 
-    public void sendMessage(Object message) {
+    public void sendMessage(DomainEvent<?> message) {
         template.convertAndSend(messageQueue, message);
     }
 

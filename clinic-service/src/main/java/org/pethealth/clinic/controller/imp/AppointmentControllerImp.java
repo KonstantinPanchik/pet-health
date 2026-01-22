@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.pethealth.clinic.controller.AppointmentController;
 import org.pethealth.clinic.dto.request.AppointmentCreationRequest;
-import org.pethealth.clinic.dto.request.ChangeStatusRequest;
 import org.pethealth.clinic.dto.response.AppointmentResponse;
-import org.pethealth.clinic.service.AppointmentService;
+import org.pethealth.clinic.service.appointment.AppointmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -47,7 +46,7 @@ public class AppointmentControllerImp implements AppointmentController {
     public AppointmentResponse updateAppointmentStatus(
             @PathVariable Long appointmentId,
             @AuthenticationPrincipal Jwt jwt) {
-        return appointmentService.cancelAppointment(jwt, appointmentId);
+        return appointmentService.cancelAppointmentByUser(jwt, appointmentId);
 
     }
 
