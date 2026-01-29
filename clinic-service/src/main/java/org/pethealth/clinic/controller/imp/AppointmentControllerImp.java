@@ -42,11 +42,11 @@ public class AppointmentControllerImp implements AppointmentController {
     }
 
     @Override
-    @PatchMapping("/{appointmentId}/cancel")
+    @PatchMapping("/{id}/cancel")
     public AppointmentResponse updateAppointmentStatus(
-            @PathVariable Long appointmentId,
+            @PathVariable Long id,
             @AuthenticationPrincipal Jwt jwt) {
-        return appointmentService.cancelAppointmentByUser(jwt, appointmentId);
+        return appointmentService.cancelAppointmentByUser(jwt, id);
 
     }
 
