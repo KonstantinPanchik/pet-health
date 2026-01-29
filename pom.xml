@@ -22,7 +22,6 @@
         <module>notifications</module>
         <module>security-starter</module>
         <module>users</module>
-        <module>notifications/notifications-service</module>
     </modules>
 
     <properties>
