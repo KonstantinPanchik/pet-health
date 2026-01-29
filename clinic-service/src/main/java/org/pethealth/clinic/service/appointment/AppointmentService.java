@@ -121,7 +121,7 @@ public class AppointmentService {
     }
 
     @Transactional
-    public AppointmentResponse cancelAppointmentByUser(Jwt jwt, Long appointmentId) {
+    public AppointmentResponse cancelAppointmentByUser(Long appointmentId, Jwt jwt) {
         JwtUserPrincipal principal = jwtUserConverter.convert(jwt);
 
         Appointment appointment = appointmentRepository.findById(appointmentId)

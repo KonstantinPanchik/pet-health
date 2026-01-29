@@ -37,8 +37,8 @@ public interface AppointmentController {
             ))
     })
     AppointmentResponse getAppointment(
-            @AuthenticationPrincipal Jwt jwt,
-            @PathVariable Long id
+            @PathVariable Long id,
+            @AuthenticationPrincipal Jwt jwt
     );
 
     @Operation(summary = "Создание новой записи на прием")

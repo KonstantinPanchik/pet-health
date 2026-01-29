@@ -24,10 +24,7 @@ public class AppointmentControllerImp implements AppointmentController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public AppointmentResponse getAppointment(
-            @AuthenticationPrincipal Jwt jwt,
-            @PathVariable Long id
-    ) {
+    public AppointmentResponse getAppointment(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
         return appointmentService.getAppointment(id, jwt);
     }
 
@@ -43,11 +40,8 @@ public class AppointmentControllerImp implements AppointmentController {
 
     @Override
     @PatchMapping("/{id}/cancel")
-    public AppointmentResponse updateAppointmentStatus(
-            @PathVariable Long id,
-            @AuthenticationPrincipal Jwt jwt) {
-        return appointmentService.cancelAppointmentByUser(jwt, id);
-
+    public AppointmentResponse updateAppointmentStatus(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
+        return appointmentService.cancelAppointmentByUser(id, jwt);
     }
 
 }
