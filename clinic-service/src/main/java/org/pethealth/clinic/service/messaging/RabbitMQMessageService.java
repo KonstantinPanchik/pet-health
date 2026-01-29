@@ -12,7 +12,7 @@ public class RabbitMQMessageService {
 
     private final RabbitTemplate template;
 
-    @Value("${rabbitmq.queue.name}")
+    @Value("${rabbitmq.queue.name:appointment_queue}")
     private String messageQueue;
 
 
