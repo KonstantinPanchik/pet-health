@@ -2,6 +2,7 @@ package org.pethealth.notifications.strategy.appointment.imp;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.pethealth.notifications.dto.appointment.AppointmentInfo;
 import org.pethealth.notifications.dto.appointment.InitiatorInfo;
 import org.pethealth.notifications.model.EmailContext;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class NewAppointmentNotificationStrategy implements AppointmentNotificationStrategy {
 
@@ -38,7 +40,9 @@ public class NewAppointmentNotificationStrategy implements AppointmentNotificati
                 .attachments(Collections.emptyList())
                 .build();
         try {
+            log.info("Sending new appointment notification");
             emailService.sendHtmlEmail(context);
+            log.info("New Appointment Notification Strategy completed");
         } catch (MessagingException e) {
             System.err.println("Ошибка при отправке email: " + e.getMessage());
             e.printStackTrace();
