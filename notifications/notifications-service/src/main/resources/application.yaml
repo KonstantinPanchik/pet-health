@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 728926
+    url: jdbc:postgresql://localhost:5432/pet-health
+  mail:
+    host: smtp.mail.ru
+    port: 465
+    username: kostya.panisov@mail.ru
+    password: ф
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  amqp:
+    deserialization:
+      trust:
+        all: true
+
+rabbitmq:
+  queue:
+    appointment:
+      name: appointment_queue
+    user:
+      name: user_queue
+
+
+
