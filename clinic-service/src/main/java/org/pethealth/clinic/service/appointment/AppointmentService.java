@@ -149,11 +149,16 @@ public class AppointmentService {
 
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
-        boolean isClinicCorrect = appointment.getClinic().getId().equals(clinicId);//TODO проверить
+        boolean isClinicCorrect = appointment.getClinic().getId().equals(clinicId);
+
+        if (!isClinicCorrect) {
+            throw new IllegalArgumentException("Appointment not in this Clinic");
+        }
+
         boolean isClinicOwner = appointment.getClinic().getOwnerId().equals(principal.getSub());
 
         if (!isClinicOwner) {
-            throw new IllegalArgumentException("Pet is not owner of this owner");//ToDo ss
+            throw new IllegalArgumentException("Pet is not owner of this owner");
         }
 
         if (!AppointmentStatus.NEW.equals(appointment.getStatus())) {
@@ -168,10 +173,17 @@ public class AppointmentService {
     }
 
     @Transactional
-    public AppointmentResponse visitAppointment(Jwt jwt, Long appointmentId) {
+    public AppointmentResponse visitAppointment(Jwt jwt, Long appointmentId,Long clinicId) {
+
         JwtUserPrincipal principal = jwtUserConverter.convert(jwt);
+
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
+        boolean isClinicCorrect = appointment.getClinic().getId().equals(clinicId);
+
+        if (!isClinicCorrect) {
+            throw new IllegalArgumentException("Appointment not in this Clinic");
+        }
         boolean isClinicOwner = appointment.getClinic().getOwnerId().equals(principal.getSub());
 
         if (!isClinicOwner) {

@@ -1,5 +1,10 @@
 package org.pethealth.clinic.controller.imp;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.pethealth.clinic.controller.ClinicController;
@@ -91,13 +96,22 @@ public class ClinicControllerImp implements ClinicController {
         );
     }
 
-    @PatchMapping("/{clinicId}/appointments/{appointmentId}")
+    @PatchMapping("/{clinicId}/appointments/{appointmentId}/cancel")
     public AppointmentResponse cancelAppointment(
             @PathVariable Long clinicId,
             @PathVariable Long appointmentId,
             @AuthenticationPrincipal Jwt jwt
     ) {
         return appointmentService.cancelAppointmentByClinicOwner(jwt, appointmentId, clinicId);
+    }
+
+    @PatchMapping("/{clinicId}/appointments/{appointmentId}/visit")
+    public AppointmentResponse markAsVisitAppointment(
+            @PathVariable Long clinicId,
+            @PathVariable Long appointmentId,
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        return appointmentService.visitAppointment(jwt, appointmentId, clinicId);
     }
 }
 

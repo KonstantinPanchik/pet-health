@@ -10,11 +10,13 @@ import org.pethealth.clinic.dto.aliases.AppointmentPageResponse;
 import org.pethealth.clinic.dto.aliases.ClinicPageResponse;
 import org.pethealth.clinic.dto.enums.AppointmentStatus;
 import org.pethealth.clinic.dto.request.ClinicRequest;
+import org.pethealth.clinic.dto.response.AppointmentResponse;
 import org.pethealth.clinic.dto.response.ClinicResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -115,6 +117,45 @@ public interface ClinicController {
             @RequestParam(required = false) LocalDateTime to,
             @RequestParam(required = false) AppointmentStatus status,
             Pageable pageable
+    );
+
+    @Operation(summary = "Отмена записи на приём клиникой", description = "Владелец клиники отменяет запись на приём. Запись должна принадлежать указанной клинике.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK — запись отменена", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = AppointmentResponse.class)
+            )),
+            @ApiResponse(responseCode = "404", description = "Clinic or Appointment not found", content = @Content(
+                    schema = @Schema(example = "{\"statusCode\": 404, \"message\": \"Appointment or clinic not found\"}")
+            )),
+            @ApiResponse(responseCode = "403", description = "Access Denied — не являетесь владельцем клиники", content = @Content(
+                    schema = @Schema(example = "{\"statusCode\": 403, \"message\": \"Access Denied\"}")
+            ))
+    })
+    AppointmentResponse cancelAppointment(
+            @PathVariable Long clinicId,
+            @PathVariable Long appointmentId,
+            @AuthenticationPrincipal Jwt jwt
+    );
+
+    @Operation(summary = "Отметить визит по записи", description = "Владелец клиники отмечает, что пациент посетил приём по данной записи.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK — визит отмечен", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = AppointmentResponse.class)
+            )),
+            @ApiResponse(responseCode = "404", description = "Clinic or Appointment not found", content = @Content(
+                    schema = @Schema(example = "{\"statusCode\": 404, \"message\": \"Appointment or clinic not found\"}")
+            )),
+            @ApiResponse(responseCode = "403", description = "Access Denied — не являетесь владельцем клиники", content = @Content(
+                    schema = @Schema(example = "{\"statusCode\": 403, \"message\": \"Access Denied\"}")
+            ))
+    })
+    @PatchMapping("/{clinicId}/appointments/{appointmentId}/visit")
+    AppointmentResponse markAsVisitAppointment(
+            @PathVariable Long clinicId,
+            @PathVariable Long appointmentId,
+            @AuthenticationPrincipal Jwt jwt
     );
 
 }
