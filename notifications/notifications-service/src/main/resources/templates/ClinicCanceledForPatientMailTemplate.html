@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Клиника отменила приём</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Клиника отменила приём</h1>
+        </div>
+        <div class="content">
+            <p>Уважаемый <span th:text="${patient.firstName + ' ' + patient.lastName}">Имя Фамилия</span>!</p>
+            <p>К сожалению, клиника <strong th:text="${appointment.clinic.clinicName}">Клиника</strong> отменила вашу запись на <strong th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy HH:mm')}">Дата и время</strong>.</p>
+            <p>Пожалуйста, выберите другое время или другую клинику.</p>
+            <div class="info-block">
+                <p><span class="info-label">Клиника:</span> <span th:text="${appointment.clinic.clinicName}">Название клиники</span></p>
+                <p><span class="info-label">Адрес:</span> <span th:text="${appointment.clinic.clinicAddress}">Адрес</span></p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>С уважением,<br>Команда PetHealth</p>
+        </div>
+    </div>
+</body>
+</html>

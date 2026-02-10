@@ -20,34 +20,39 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ClinicGetNewAppointmentBehavior implements EmailBehavior{
+public class PatientVisitedBehavior implements EmailBehavior {
 
-    private final UserProjectionRepository projectionRepository;
     private final EmailService emailService;
+    private final UserProjectionRepository userProjectionRepository;
 
     @Override
     public void sendEmail(InitiatorInfo initiator, AppointmentInfo appointment) {
-
-        Optional<UserProjection> byId = projectionRepository.findById(appointment.getClinic().getClinicOwnerId());
-        if (byId.isEmpty()) {
+        // При CLINIC_VISITED инициатор — клиника, письмо отправляем пациенту (владельцу питомца)
+        if (appointment.getPet() == null || appointment.getPet().getPetOwnerId() == null) {
+            log.warn("Cannot notify patient: pet or petOwnerId is missing");
             return;
         }
-        UserProjection clinicOwner = byId.get();
+        Optional<UserProjection> patientOpt = userProjectionRepository.findById(appointment.getPet().getPetOwnerId());
+        if (patientOpt.isEmpty()) {
+            log.warn("Patient not found for petOwnerId: {}", appointment.getPet().getPetOwnerId());
+            return;
+        }
+        UserProjection patient = patientOpt.get();
 
         Map<String, Object> templateVariables = new HashMap<>();
-        templateVariables.put("clinicOwner", clinicOwner);
+        templateVariables.put("patient", patient);
         templateVariables.put("initiator", initiator);
         templateVariables.put("appointment", appointment);
 
         EmailContext context = EmailContext.builder()
-                .to(clinicOwner.getEmail())
-                .subject("Новая запись на приём")
-                .templateType(TemplateType.USER_CREATED_FOR_CLINIC)
+                .to(patient.getEmail())
+                .subject("Спасибо за визит")
+                .templateType(TemplateType.CLINIC_VISITED_FOR_PATIENT)
                 .context(templateVariables)
                 .attachments(Collections.emptyList())
                 .build();
         try {
-            log.info("Sending user-created appointment notification to clinic owner");
+            log.info("Sending visit confirmation notification to patient");
             emailService.sendHtmlEmail(context);
         } catch (MessagingException e) {
             log.error("Ошибка при отправке email: {}", e.getMessage());

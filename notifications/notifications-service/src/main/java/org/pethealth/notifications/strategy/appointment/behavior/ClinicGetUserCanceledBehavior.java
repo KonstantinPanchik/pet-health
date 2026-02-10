@@ -17,37 +17,44 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Уведомление клиники о том, что пациент отменил запись.
+ * Инициатор — пациент; письмо отправляем владельцу клиники.
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ClinicGetNewAppointmentBehavior implements EmailBehavior{
+public class ClinicGetUserCanceledBehavior implements EmailBehavior {
 
-    private final UserProjectionRepository projectionRepository;
     private final EmailService emailService;
+    private final UserProjectionRepository userProjectionRepository;
 
     @Override
     public void sendEmail(InitiatorInfo initiator, AppointmentInfo appointment) {
-
-        Optional<UserProjection> byId = projectionRepository.findById(appointment.getClinic().getClinicOwnerId());
-        if (byId.isEmpty()) {
+        if (appointment.getClinic() == null || appointment.getClinic().getClinicOwnerId() == null) {
+            log.warn("Cannot notify clinic: clinic or clinicOwnerId is missing");
             return;
         }
-        UserProjection clinicOwner = byId.get();
+        Optional<UserProjection> clinicOwnerOpt = userProjectionRepository.findById(appointment.getClinic().getClinicOwnerId());
+        if (clinicOwnerOpt.isEmpty()) {
+            log.warn("Clinic owner not found for clinicOwnerId: {}", appointment.getClinic().getClinicOwnerId());
+            return;
+        }
+        UserProjection clinicOwner = clinicOwnerOpt.get();
 
         Map<String, Object> templateVariables = new HashMap<>();
-        templateVariables.put("clinicOwner", clinicOwner);
         templateVariables.put("initiator", initiator);
         templateVariables.put("appointment", appointment);
 
         EmailContext context = EmailContext.builder()
                 .to(clinicOwner.getEmail())
-                .subject("Новая запись на приём")
-                .templateType(TemplateType.USER_CREATED_FOR_CLINIC)
+                .subject("Пациент отменил запись")
+                .templateType(TemplateType.USER_CANCELED_FOR_CLINIC)
                 .context(templateVariables)
                 .attachments(Collections.emptyList())
                 .build();
         try {
-            log.info("Sending user-created appointment notification to clinic owner");
+            log.info("Sending user-canceled notification to clinic");
             emailService.sendHtmlEmail(context);
         } catch (MessagingException e) {
             log.error("Ошибка при отправке email: {}", e.getMessage());
