@@ -8,7 +8,7 @@ spring:
     host: smtp.mail.ru
     port: 465
     username: kostya.panisov@mail.ru
-    password: ф
+    password: cfzFCVfjpzLZgZSebVdB
     protocol: smtp
     properties:
       mail:

@@ -17,6 +17,7 @@ public class AppointmentEventHandler {
     public void handle(AppointmentEvent event) {
         AppointmentNotificationStrategy appointmentNotificationStrategy
                 = appointmentNotificationStrategyFactory.getAppointmentNotificationStrategy(event.getAppointmentEventType());
-        appointmentNotificationStrategy.sendEmailNotifications(event.getInitiatorInfo(), event.getAppointmentInfo());
+
+        appointmentNotificationStrategy.sendPatientEmailNotifications(event.getInitiatorInfo(), event.getAppointmentInfo());
     }
 }

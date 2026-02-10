@@ -1,0 +1,19 @@
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        jdbc:
+          batch_size: 20
+
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 5672
+
+rabbitmq:
+  queue:
+    name: appointment_queue

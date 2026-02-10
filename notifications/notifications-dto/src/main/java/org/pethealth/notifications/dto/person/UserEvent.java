@@ -27,4 +27,16 @@ public class UserEvent implements DomainEvent<UserEventType> {
     public LocalDateTime occurredAt() {
         return eventTime;
     }
+
+    @Override
+    public String toString() {
+        return "UserEvent{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", type=" + type +
+                ", eventTime=" + eventTime +
+                '}';
+    }
 }
