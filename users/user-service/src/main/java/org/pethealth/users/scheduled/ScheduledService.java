@@ -18,7 +18,7 @@ public class ScheduledService {
 
     private final RealmResource realmKeycloak;
 
-    @Scheduled(cron = "0 */10 * * * *")
+    @Scheduled(cron = "0 * * */30 * *")
     @Async
     public void scheduled() {
 
@@ -37,14 +37,15 @@ public class ScheduledService {
             }
 
             userRepresentations.forEach(user -> {
-                if (Boolean.FALSE.equals(user.isEmailVerified()) &&
-                        System.currentTimeMillis() - user.getCreatedTimestamp() > Duration.ofHours(24).toMillis()) {
+                boolean roleEmailVerified = user.getRealmRoles().contains("ROLE_EMAIL_VERIFIED");
+                if (!roleEmailVerified &&
+                        System.currentTimeMillis() - user.getCreatedTimestamp() > Duration.ofDays(365).toMillis()) {
                     realmKeycloak.users().delete(user.getId());
                 }
                 log.trace("Stop deleting users");
 
             });
-            first+=max;
+            first += max;
 
         }
         log.debug("Stop deleting users");
