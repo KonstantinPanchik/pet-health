@@ -8,8 +8,6 @@ import org.pethealth.notifications.repository.UserProjectionRepository;
 import org.pethealth.notifications.repository.entity.UserProjection;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
