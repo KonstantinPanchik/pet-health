@@ -2,8 +2,8 @@ package org.pethealth.users.scheduled;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.pethealth.users.utils.RealmUtil;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduledService {
 
-    private final RealmUtil realmUtil;
+    private final RealmResource realmKeycloak;
 
     @Scheduled(cron = "0 */10 * * * *")
     @Async
@@ -29,8 +29,7 @@ public class ScheduledService {
 
         while (true) {
 
-            List<UserRepresentation> userRepresentations = realmUtil.getRealm()
-                    .users()
+            List<UserRepresentation> userRepresentations = realmKeycloak.users()
                     .search(null, null, null, null, false, first, max, null, null);
 
             if (userRepresentations.isEmpty()) {
@@ -40,10 +39,7 @@ public class ScheduledService {
             userRepresentations.forEach(user -> {
                 if (Boolean.FALSE.equals(user.isEmailVerified()) &&
                         System.currentTimeMillis() - user.getCreatedTimestamp() > Duration.ofHours(24).toMillis()) {
-
-                    realmUtil.getRealm()
-                            .users()
-                            .delete(user.getId());
+                    realmKeycloak.users().delete(user.getId());
                 }
                 log.trace("Stop deleting users");
 

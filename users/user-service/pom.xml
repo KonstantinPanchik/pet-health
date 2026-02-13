@@ -61,6 +61,12 @@
             <groupId>org.pethealth.security</groupId>
             <artifactId>security-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.pethealth.notifications.dto</groupId>
+            <artifactId>notifications-dto</artifactId>
+            <version>0.0.1</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>

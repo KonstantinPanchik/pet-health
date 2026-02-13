@@ -2,9 +2,9 @@ package org.pethealth.users.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.keycloak.admin.client.resource.RealmResource;
 import org.pethealth.security.converter.JwtUserConverter;
 import org.pethealth.security.model.JwtUserPrincipal;
-import org.pethealth.users.utils.RealmUtil;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KeycloakApiService {
 
-    private final RealmUtil realmUtil;
+    private final RealmResource realmKeycloak;
     private final JwtUserConverter jwtUserConverter;
 
     public void confirmEmail(Jwt jwt) {
@@ -23,7 +23,7 @@ public class KeycloakApiService {
         if (principal.getEmailVerified()) {
             throw new RuntimeException("Email already verified");//todo ошибка переделать
         }
-        realmUtil.getRealm().users().get(principal.getSub()).sendVerifyEmail();
+        realmKeycloak.users().get(principal.getSub()).sendVerifyEmail();
         log.debug("Email for verification was sent");
     }
 
@@ -33,8 +33,7 @@ public class KeycloakApiService {
             throw new RuntimeException("Email not verified");//todo ошибка переделать
         }
 
-        realmUtil.getRealm()
-                .users()
+        realmKeycloak.users()
                 .get(principal.getSub())
                 .executeActionsEmail(List.of("UPDATE_PASSWORD"));
 
