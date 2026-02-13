@@ -12,8 +12,9 @@ import org.pethealth.clinic.mapper.AppointmentMapper;
 import org.pethealth.clinic.repository.AppointmentRepository;
 import org.pethealth.clinic.repository.ClinicRepository;
 import org.pethealth.clinic.repository.PetRepository;
-import org.pethealth.clinic.service.messaging.RabbitMQMessageService;
+
 import org.pethealth.notifications.dto.appointment.AppointmentEventType;
+import org.pethealth.notifications.dto.service.NotificationQueueMessageService;
 import org.pethealth.security.converter.JwtUserConverter;
 import org.pethealth.security.model.JwtUserPrincipal;
 import org.springframework.data.domain.Page;
@@ -37,7 +38,7 @@ public class AppointmentService {
     private final JwtUserConverter jwtUserConverter;
 
     private final AppointmentEventService appointmentEventService;
-    private final RabbitMQMessageService rabbitMQMessageService;
+    private final NotificationQueueMessageService notificationQueueMessageService;
 
 
     @Transactional
@@ -62,7 +63,7 @@ public class AppointmentService {
         appointment.setStatus(AppointmentStatus.NEW);
         appointmentRepository.save(appointment);
 
-        rabbitMQMessageService.sendMessage(appointmentEventService.createEvent(principal, appointment, AppointmentEventType.USER_CREATED));
+        notificationQueueMessageService.sendMessage(appointmentEventService.createEvent(principal, appointment, AppointmentEventType.USER_CREATED));
 
         return appointmentMapper.toAppointmentResponse(appointment);
     }
@@ -137,7 +138,7 @@ public class AppointmentService {
         }
 
         appointment.setStatus(AppointmentStatus.CANCELLED_BY_USER);
-        rabbitMQMessageService.sendMessage(
+        notificationQueueMessageService.sendMessage(
                 appointmentEventService.createEvent(principal, appointment, AppointmentEventType.USER_CANCELED));
 
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
@@ -167,7 +168,7 @@ public class AppointmentService {
 
         appointment.setStatus(AppointmentStatus.CANCELLED_BY_CLINIC);
 
-        rabbitMQMessageService.sendMessage(
+        notificationQueueMessageService.sendMessage(
                 appointmentEventService.createEvent(principal, appointment, AppointmentEventType.CLINIC_CANCELED));
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }
@@ -192,7 +193,7 @@ public class AppointmentService {
 
         appointment.setStatus(AppointmentStatus.VISITED);
 
-        rabbitMQMessageService.sendMessage(
+        notificationQueueMessageService.sendMessage(
                 appointmentEventService.createEvent(principal, appointment, AppointmentEventType.CLINIC_VISITED));
         return appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
     }

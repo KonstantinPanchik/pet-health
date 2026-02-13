@@ -9,11 +9,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class NotificationConfiguration {
 
-    private static final String queueName = "appointment_queue";
+    public static final String appointmentsQueueName = "appointment_queue";
+    public static final String userQueueName = "user_queue";
 
     @Bean
     public Queue appointmentsQueue() {
-        return new Queue(queueName, false);
+        return new Queue(appointmentsQueueName, false);
+    }
+
+    @Bean
+    public Queue userQueue() {
+        return new Queue(userQueueName, false);
     }
 
     @Bean
