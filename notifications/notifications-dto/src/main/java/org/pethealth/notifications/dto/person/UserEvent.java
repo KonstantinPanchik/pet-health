@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class UserEvent implements DomainEvent<UserEventType> {
 
     private String id;
-    private String name;
+    private String firstName;
     private String lastName;
     private String email;
 
@@ -32,7 +32,7 @@ public class UserEvent implements DomainEvent<UserEventType> {
     public String toString() {
         return "UserEvent{" +
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                ", name='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", type=" + type +
