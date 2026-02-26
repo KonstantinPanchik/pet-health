@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Спасибо за визит</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Спасибо за визит!</h1>
+        </div>
+        <div class="content">
+            <p>Уважаемый <span th:text="${patient.firstName + ' ' + patient.lastName}">Имя Фамилия</span>!</p>
+            <p>Благодарим вас за визит в клинику <strong th:text="${appointment.clinic.clinicName}">Клиника</strong> <span th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy')}">дата</span>.</p>
+            <p>Надеемся, что вашему питомцу оказали необходимую помощь. Будьте здоровы!</p>
+            <div class="info-block">
+                <p><span class="info-label">Клиника:</span> <span th:text="${appointment.clinic.clinicName}">Название клиники</span></p>
+                <p><span class="info-label">Дата визита:</span> <span th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy HH:mm')}">Дата и время</span></p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>С уважением,<br>Команда PetHealth</p>
+        </div>
+    </div>
+</body>
+</html>

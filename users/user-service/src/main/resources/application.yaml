@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: "/api/v1"
+    context-path: "/api/v1/users/"
   port: 8081
 logging:
   level:
@@ -16,7 +16,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/pethealth
+          issuer-uri: http://localhost:8080/auth/realms/pethealth
   jpa:
     hibernate:
       ddl-auto: update
@@ -25,6 +25,6 @@ spring:
 application:
   keycloak-admin:
     realm: pethealth
-    keycloak-url: http://localhost:8080
-    client-id: test-test
-    client-secret: rYePFsWi95jA0GqGTxJgT7p1xJRjbLgt
+    keycloak-url: http://localhost:8080/auth
+    client-id: user-service
+    client-secret: EYEKRs6m4RNhkenFz4pIgMlflkdBbeTL

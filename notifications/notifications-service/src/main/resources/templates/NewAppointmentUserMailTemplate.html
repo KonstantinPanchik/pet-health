@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запись на приём</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Запись на приём</h1>
+        </div>
+        <div class="content">
+            <p>Уважаемый <span th:text="${initiator.initiatorName + ' ' + initiator.initiatorLastName}">Имя Фамилия</span>!</p>
+            
+            <p>Вы записаны в клинику по адресу <strong th:text="${appointment.clinic.clinicAddress}">Адрес клиники</strong> на <strong th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy HH:mm')}">Дата и время</strong>.</p>
+            
+            <div class="info-block">
+                <p><span class="info-label">Клиника:</span> <span th:text="${appointment.clinic.clinicName}">Название клиники</span></p>
+                <p><span class="info-label">Адрес:</span> <span th:text="${appointment.clinic.clinicAddress}">Адрес клиники</span></p>
+                <p><span class="info-label">Дата и время:</span> <span th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy HH:mm')}">Дата и время</span></p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>С уважением,<br>Команда PetHealth</p>
+        </div>
+    </div>
+</body>
+</html>

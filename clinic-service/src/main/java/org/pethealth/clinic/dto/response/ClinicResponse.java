@@ -8,6 +8,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
+@Schema(description = "Клиника")
 public class ClinicResponse {
 
     @Schema(description = "Id клиники в бд", type = "long", example = "1")

@@ -6,15 +6,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.pethealth.clinic.dto.aliases.AppointmentPageResponse;
+import org.pethealth.clinic.dto.enums.AppointmentStatus;
 import org.pethealth.clinic.dto.request.PetRequest;
 import org.pethealth.clinic.dto.response.PetResponse;
 import org.pethealth.clinic.dto.response.PetShortResponse;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Tag(name = "Питомцы")
@@ -30,7 +35,7 @@ public interface PetController {
     @Operation(summary = "Создание нового питомца")
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "200", description = "OK", content = @Content(
+                    responseCode = "201", description = "Created", content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = PetResponse.class)
             )),
@@ -88,5 +93,22 @@ public interface PetController {
     PetResponse updatePet(@AuthenticationPrincipal Jwt jwt,
                           @PathVariable Long petId,
                           @RequestBody @Validated PetRequest petRequest);
+
+    @Operation(summary = "Получение всех записей на прием по ID питомца")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200", description = "OK", content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = AppointmentPageResponse.class)
+            ))
+    })
+    AppointmentPageResponse getAllAppointmentsByPet(
+            @PathVariable Long petId,
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestParam(required = false) LocalDateTime from,
+            @RequestParam(required = false) LocalDateTime to,
+            @RequestParam(required = false) AppointmentStatus status,
+            Pageable pageable
+    );
 }
 

@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: "/api/v1/veterinary/"
+    context-path: "/api/v1/veterinary"
   port: 8082
 logging:
   level:
@@ -16,8 +16,12 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/pethealth
+          issuer-uri: http://localhost:8080/auth/realms/pethealth
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 

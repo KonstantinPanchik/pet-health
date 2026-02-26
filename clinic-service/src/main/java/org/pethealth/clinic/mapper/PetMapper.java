@@ -3,6 +3,7 @@ package org.pethealth.clinic.mapper;
 import org.pethealth.clinic.dto.response.PetResponse;
 import org.pethealth.clinic.dto.response.PetShortResponse;
 import org.pethealth.clinic.entities.Pet;
+import org.pethealth.notifications.dto.appointment.PetInfo;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,5 +27,14 @@ public class PetMapper {
                 .name(pet.getName())
                 .petType(pet.getPetType())
                 .build();
+    }
+
+    public PetInfo toPetInfo(Pet pet) {
+        PetInfo petInfo = new PetInfo();
+        petInfo.setPetOwnerId(pet.getOwnerId());
+        petInfo.setName(pet.getName());
+        petInfo.setType(petInfo.getType());
+        petInfo.setFullYearsByYearOfBirth(pet.getYearOfBirth());
+        return petInfo;
     }
 }
