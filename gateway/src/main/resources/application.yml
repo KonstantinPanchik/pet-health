@@ -21,4 +21,9 @@ spring:
           uri: ${CLINIC_SERVICE_ENDPOINT:http://localhost:8082}
           predicates:
             - Path=/api/v1/**
+        - id: keycloak
+          order: 3
+          uri: ${KEYCLOACK_ENDPOINT:http://localhost:8080}
+          predicates:
+            - Path=/auth
 

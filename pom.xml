@@ -22,6 +22,7 @@
         <module>notifications</module>
         <module>security-starter</module>
         <module>users</module>
+        <module>gateway</module>
     </modules>
 
     <properties>
